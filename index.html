@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>圍棋 AI - 完整規則版</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header-area">
+            <h1>圍棋對弈 <span class="badge">PRO</span></h1>
+            
+            <div class="score-board">
+                <div class="player active" id="p1-area">
+                    <div class="stone-icon black"></div> 玩家 (黑)
+                    <div class="score-text" id="p1-captures">提子: 0</div>
+                </div>
+                <div class="player" id="p2-area">
+                    <div class="stone-icon white"></div> AI (白)
+                    <div class="score-text" id="p2-captures">提子: 0</div>
+                </div>
+            </div>
+
+            <div id="statusMsg" class="status-text">請執黑先行...</div>
+            <div id="atariMsg" class="atari-text"></div>
+        </div>
+
+        <div class="board-wrapper">
+            <canvas id="goBoard"></canvas>
+        </div>
+
+        <div class="controls">
+            <button class="btn pass" onclick="passTurn()">虛手 (Pass)</button>
+            <button class="btn restart" onclick="restartGame()">重開局</button>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h2>🏆 對局結束</h2>
+            <div class="result-grid">
+                <div class="result-row">
+                    <span>黑棋 (玩家)</span>
+                    <span id="blackResult">0 目</span>
+                </div>
+                <div class="result-row">
+                    <span>白棋 (AI)</span>
+                    <span id="whiteResult">0 目</span>
+                </div>
+            </div>
+            <h3 id="winnerText" class="winner-text"></h3>
+            <p class="sub-text">*規則：日本規則 (地盤 + 提子)</p>
+            <button class="btn restart" onclick="restartGame()">再來一局</button>
+        </div>
+    </div>
+
+    <audio id="clickSound" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>

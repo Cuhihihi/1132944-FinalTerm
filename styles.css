@@ -1,0 +1,146 @@
+:root {
+    --text-color: #fff;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --board-bg: #eeb556; /* 真實榧木色 */
+}
+
+body {
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--text-color);
+    user-select: none;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+}
+
+.header-area {
+    width: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    text-align: center;
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.3);
+    transition: 0.3s;
+    position: relative;
+}
+
+.player.active {
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 15px #fdbb2d;
+    border: 1px solid #fff;
+}
+
+.stone-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+.stone-icon.black { background: #000; border: 1px solid #666; }
+.stone-icon.white { background: #fff; }
+
+.captures {
+    font-size: 0.8em;
+    opacity: 0.8;
+    margin-left: 5px;
+}
+
+.status-text { font-size: 1.1rem; font-weight: bold; min-height: 24px; }
+.atari-text { color: #ff4757; font-weight: bold; min-height: 20px; font-size: 0.9rem; margin-top: 5px; text-shadow: 0 0 5px red;}
+
+.board-wrapper {
+    background: #d4a755;
+    padding: 15px; /* 這裡留邊給座標，增加真實感 */
+    border-radius: 5px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+canvas {
+    display: block;
+    background-color: var(--board-color);
+    cursor: pointer;
+}
+
+.controls { display: flex; gap: 15px; width: 100%; justify-content: center; }
+
+.btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    backdrop-filter: blur(5px);
+    transition: 0.2s;
+}
+.btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+.btn.pass { background: rgba(52, 152, 219, 0.4); }
+.btn.restart { background: rgba(231, 76, 60, 0.4); }
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+.modal-content {
+    background: #2c3e50;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid #fdbb2d;
+    min-width: 300px;
+}
+.result-details {
+    margin: 20px 0;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+.winner-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fdbb2d;
+    margin-top: 10px;
+}
