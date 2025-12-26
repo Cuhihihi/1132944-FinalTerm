@@ -1,13 +1,27 @@
 :root {
-    --text-color: #fff;
-    --glass-bg: rgba(255, 255, 255, 0.1);
-    --board-bg: #eeb556; /* 真實榧木色 */
+    --board-color: #e3c086;
+    --text-color: white;
+    --btn-bg: rgba(255, 255, 255, 0.2);
+    --btn-hover: white;
 }
 
 body {
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    /* 【修改】彩虹流動背景 */
+    background: linear-gradient(
+        45deg, 
+        #ff0000, /* 紅 */
+        #ff7300, /* 橙 */
+        #fffb00, /* 黃 */
+        #48ff00, /* 綠 */
+        #00ffd5, /* 青 */
+        #002bff, /* 藍 */
+        #7a00ff, /* 紫 */
+        #ff00c8, /* 粉 */
+        #ff0000  /* 回到紅 (形成循環) */
+    );
     background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    animation: rainbow 20s linear infinite;
+    
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
@@ -18,7 +32,8 @@ body {
     user-select: none;
 }
 
-@keyframes gradientBG {
+/* 【修改】彩虹動畫關鍵影格 */
+@keyframes rainbow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
@@ -26,121 +41,193 @@ body {
 
 .container {
     width: 100%;
-    max-width: 650px;
+    max-width: 600px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding: 10px;
 }
 
 .header-area {
     width: 100%;
-    background: var(--glass-bg);
+    background: rgba(0, 0, 0, 0.25); /* 加深一點背景，讓彩虹底下的字更清楚 */
     backdrop-filter: blur(10px);
-    border-radius: 15px;
+    border-radius: 12px;
     padding: 15px;
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     text-align: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
 }
+
+h1 { margin: 0 0 10px 0; font-size: 1.5rem; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.badge { background: #ff4757; padding: 2px 6px; border-radius: 4px; font-size: 0.5em; vertical-align: middle; }
 
 .score-board {
     display: flex;
     justify-content: space-around;
-    margin: 10px 0;
+    margin-bottom: 5px;
 }
 
 .player {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 8px 15px;
-    border-radius: 20px;
-    background: rgba(0,0,0,0.3);
+    padding: 8px 20px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.4);
     transition: 0.3s;
-    position: relative;
+    border: 2px solid transparent;
 }
 
 .player.active {
-    background: rgba(255,255,255,0.2);
-    box-shadow: 0 0 15px #fdbb2d;
-    border: 1px solid #fff;
+    background: rgba(255,255,255,0.25);
+    border-color: #ffd700;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
 .stone-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+    width: 24px; height: 24px; border-radius: 50%;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
-.stone-icon.black { background: #000; border: 1px solid #666; }
+.stone-icon.black { background: #000; border: 1px solid #555; }
 .stone-icon.white { background: #fff; }
 
-.captures {
-    font-size: 0.8em;
-    opacity: 0.8;
-    margin-left: 5px;
+.status-text { font-weight: bold; min-height: 20px; margin-bottom: 5px; text-shadow: 0 1px 2px black; }
+
+/* 叫吃警告文字特效 */
+.atari-warning {
+    color: #ff4757;
+    font-weight: bold;
+    animation: shake 0.5s ease-in-out;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
 }
 
-.status-text { font-size: 1.1rem; font-weight: bold; min-height: 24px; }
-.atari-text { color: #ff4757; font-weight: bold; min-height: 20px; font-size: 0.9rem; margin-top: 5px; text-shadow: 0 0 5px red;}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
 
+.pass-info {
+    font-size: 0.9em;
+    color: #f1c40f;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 4px 12px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 15px;
+    display: inline-block;
+}
+
+/* 棋盤區域 */
 .board-wrapper {
-    background: #d4a755;
-    padding: 15px; /* 這裡留邊給座標，增加真實感 */
-    border-radius: 5px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    position: relative;
+    padding: 5px;
+    
+    
+    
+    /* 【修改】限制最大寬度，避免無限變大 */
+    width: 100%; 
+    max-width: 600px; 
+    /* 讓它保持正方形 */
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 canvas {
     display: block;
     background-color: var(--board-color);
-    cursor: pointer;
+    cursor: crosshair;
+    border-radius: 2px;
+    /* 【修改】讓 canvas 填滿 wrapper，但實際解析度由 JS 控制 */
+    max-width: 100%;
+    height: auto;
 }
+/* AI 思考時的游標 */
+canvas.thinking { cursor: wait; opacity: 0.9; }
 
-.controls { display: flex; gap: 15px; width: 100%; justify-content: center; }
+.controls { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    width: 100%; 
+    justify-content: center; 
+}
 
 .btn {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.5);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.95rem;
     cursor: pointer;
-    font-size: 1rem;
-    backdrop-filter: blur(5px);
-    transition: 0.2s;
+    font-weight: bold;
+    transition: all 0.2s;
+    background: var(--btn-bg);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    flex: 1 1 auto;
+    min-width: 80px;
+    max-width: 120px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
-.btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
-.btn.pass { background: rgba(52, 152, 219, 0.4); }
-.btn.restart { background: rgba(231, 76, 60, 0.4); }
 
-/* Modal */
+.btn:hover:not(:disabled) { 
+    background: var(--btn-hover); 
+    color: #333; 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-shadow: none;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #555;
+    transform: none;
+}
+
+.btn.undo-btn { border-color: #3498db; }
+.btn.new-btn { border-color: #e74c3c; }
+.btn.pass-btn { border-color: #f39c12; }
+.btn.ai-btn { border-color: #2ecc71; }
+
 .modal {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    backdrop-filter: blur(5px);
 }
 .modal-content {
     background: #2c3e50;
     padding: 30px;
     border-radius: 15px;
     text-align: center;
-    border: 1px solid #fdbb2d;
-    min-width: 300px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    width: 80%;
+    max-width: 400px;
 }
-.result-details {
+.result-grid {
     margin: 20px 0;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #555;
+    padding: 15px 0;
+}
+.result-row {
+    display: flex;
+    justify-content: space-between;
     font-size: 1.2rem;
-    line-height: 1.6;
+    margin: 5px 0;
 }
-.winner-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fdbb2d;
-    margin-top: 10px;
-}
+.winner-text { color: #f1c40f; font-size: 1.8rem; margin: 10px 0; }
+.sub-text { font-size: 0.8rem; color: #aaa; margin-bottom: 20px; }

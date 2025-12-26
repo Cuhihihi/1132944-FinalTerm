@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>圍棋 AI - 完整規則版</title>
+    <title>圍棋 AI - Pro 整合版</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,7 +23,7 @@
             </div>
 
             <div id="statusMsg" class="status-text">請執黑先行...</div>
-            <div id="atariMsg" class="atari-text"></div>
+            <div class="pass-info">連續讓子: <span id="passCount">0</span>/2</div>
         </div>
 
         <div class="board-wrapper">
@@ -31,8 +31,10 @@
         </div>
 
         <div class="controls">
-            <button class="btn pass" onclick="passTurn()">虛手 (Pass)</button>
-            <button class="btn restart" onclick="restartGame()">重開局</button>
+            <button class="btn undo-btn" onclick="undoMove()" id="undoBtn" disabled>悔棋</button>
+            <button class="btn new-btn" onclick="restartGame()">新局</button>
+            <button class="btn pass-btn" onclick="passTurn()" id="passBtn">讓子</button>
+            <button class="btn ai-btn" onclick="toggleAI()" id="aiBtn">AI開關(開)</button>
         </div>
     </div>
 
@@ -50,7 +52,7 @@
                 </div>
             </div>
             <h3 id="winnerText" class="winner-text"></h3>
-            <p class="sub-text">*規則：日本規則 (地盤 + 提子)</p>
+            <p class="sub-text">*規則：數子法/地盤制 (含提子)</p>
             <button class="btn restart" onclick="restartGame()">再來一局</button>
         </div>
     </div>
